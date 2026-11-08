@@ -1,0 +1,62 @@
+{
+	"geode": "5.10.1",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "gd.autopilot",
+	"name": "Autopilot",
+	"version": "v0.1.0",
+	"developer": "07o9asdf",
+	"description": "Reads player state every physics step and plays the level by itself. Auto safe mode: bot runs never save. Optional Gemini tuning.",
+	"settings": {
+		"enabled": {
+			"type": "bool",
+			"name": "Enable Autopilot",
+			"default": true
+		},
+		"use-ai": {
+			"type": "bool",
+			"name": "Use Gemini tuning",
+			"description": "After some deaths, send a compact summary to Gemini and apply the parameters it suggests.",
+			"default": false
+		},
+		"api-key": {
+			"type": "string",
+			"name": "Gemini API Key",
+			"description": "Get one free at aistudio.google.com/apikey. Never share your mod settings file with the key in it.",
+			"default": ""
+		},
+		"model": {
+			"type": "string",
+			"name": "Gemini Model",
+			"description": "Change this if the default model gets retired.",
+			"default": "gemini-2.5-flash"
+		},
+		"ai-every-n-deaths": {
+			"type": "int",
+			"name": "Ask AI every N deaths",
+			"default": 3,
+			"min": 1,
+			"max": 20
+		},
+		"jump-lead": {
+			"type": "float",
+			"name": "Jump lead (seconds)",
+			"description": "How many seconds before an obstacle the bot reacts.",
+			"default": 0.14,
+			"min": 0.03,
+			"max": 0.5
+		},
+		"ship-margin": {
+			"type": "float",
+			"name": "Ship/Wave margin",
+			"description": "Safety distance kept from obstacles when steering.",
+			"default": 40,
+			"min": 10,
+			"max": 100
+		}
+	}
+}
