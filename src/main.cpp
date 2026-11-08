@@ -63,7 +63,7 @@ static char const* modeName(PlayerObject* p) {
 // ---------------------------------------------------------------------------
 static void tap(GJBaseGameLayer* g, float duration) {
 	if (s_holding) return;
-	g->pushButton(1, true);
+	g->m_player1->pushButton(PlayerButton::Jump);
 	s_holding = true;
 	s_tapTimer = duration;
 	s_lastTapX = g->m_player1->getPositionX();
@@ -71,12 +71,12 @@ static void tap(GJBaseGameLayer* g, float duration) {
 
 static void setHold(GJBaseGameLayer* g, bool want) {
 	if (want && !s_holding) {
-		g->pushButton(1, true);
+		g->m_player1->pushButton(PlayerButton::Jump);
 		s_holding = true;
 		s_tapTimer = -1.f; // steering mode: no auto release
 	}
 	else if (!want && s_holding) {
-		g->releaseButton(1, true);
+		g->m_player1->releaseButton(PlayerButton::Jump);
 		s_holding = false;
 	}
 }
@@ -85,7 +85,7 @@ static void releaseIfDue(GJBaseGameLayer* g, float dt) {
 	if (s_holding && s_tapTimer > 0.f) {
 		s_tapTimer -= dt;
 		if (s_tapTimer <= 0.f) {
-			g->releaseButton(1, true);
+			g->m_player1->releaseButton(PlayerButton::Jump);
 			s_holding = false;
 		}
 	}
@@ -307,7 +307,7 @@ static void onDeath(PlayLayer* pl) {
 // Hooks
 // ---------------------------------------------------------------------------
 class $modify(APGameLayer, GJBaseGameLayer) {
-	void processCommands(float dt) {
+	void processCommands(float dt, bool isHalfTick, bool isLastTick) {
 		auto pl = PlayLayer::get();
 		if (pl && this == static_cast<GJBaseGameLayer*>(pl)
 			&& cfgBool("enabled")
@@ -315,7 +315,7 @@ class $modify(APGameLayer, GJBaseGameLayer) {
 			&& !s_obst.empty()) {
 			botStep(this, dt);
 		}
-		GJBaseGameLayer::processCommands(dt);
+		GJBaseGameLayer::processCommands(dt, isHalfTick, isLastTick);
 	}
 };
 
